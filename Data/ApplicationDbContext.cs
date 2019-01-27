@@ -277,23 +277,25 @@ namespace AuthDemo.Data
             modelBuilder.Entity<AccountDetail>()
                 .Property(input => input.EffectiveStartDate)
                 .HasColumnName("EffectiveStartDate")
+                .HasColumnType("date")
                 .IsRequired(true);
 
             modelBuilder.Entity<AccountDetail>()
                 .Property(input => input.EffectiveEndDate)
                 .HasColumnName("EffectiveEndDate")
+                .HasColumnType("date")
                 .IsRequired(false);
 
             modelBuilder.Entity<AccountDetail>()
                 .Property(input => input.StartTimeInMinutes)
                 .HasColumnName("StartTimeInMinutes")
-                .HasColumnType("int")
+                .HasColumnType("time")
                 .IsRequired(true);
 
             modelBuilder.Entity<AccountDetail>()
                 .Property(input => input.EndTimeInMinutes)
                 .HasColumnName("EndTimeInMinutes")
-                .HasColumnType("int")
+                .HasColumnType("time")
                 .IsRequired(true);
 
             modelBuilder.Entity<AccountDetail>()

@@ -10,8 +10,8 @@ namespace AuthDemo.Models
         public int AccountDetailId { get; set; }
         //Note that, 1 is Sunday, 2 is Monday, 3 is Tuesday and 7 is Saturday.
         public int DayOfWeekNumber { get; set; }
-        public int StartTimeInMinutes { get; set; }//No choice but to use DateTime due to the fact that you deal with time zone
-        public int EndTimeInMinutes { get; set; }//http://stackoverflow.com/questions/538739/best-way-to-store-time-hhmm-in-a-database
+        public TimeSpan StartTimeInMinutes { get; set; }//No choice but to use DateTime due to the fact that you deal with time zone
+        public TimeSpan EndTimeInMinutes { get; set; }//http://stackoverflow.com/questions/538739/best-way-to-store-time-hhmm-in-a-database
         //When the instructor needs to create his timesheet for a particular month, the system
         //need to fetch to correct AccountDetail entity object for a particular month to create the correct list of dates
         //for the user to "select" to create the timesheet data. The server side logic will heavily rely on EffectiveStartDate

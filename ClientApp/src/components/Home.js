@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, Feed, Loader, CardContent } from 'semantic-ui-react';
 import AuthContext from '../AuthContext'
 import axios from 'axios';
-import moment from 'moment'
+import moment from 'moment';
 import { LineChart, Line, CartesianGrid,XAxis,YAxis,Tooltip,Legend } from 'recharts';
 
 export class Home extends Component {

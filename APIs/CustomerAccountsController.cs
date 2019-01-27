@@ -119,6 +119,7 @@ namespace AuthDemo.APIs
             return null;
         }
 
+
         // POST api/<controller>
         [HttpPost]
         public IActionResult Post([FromForm]IFormCollection value)
@@ -162,14 +163,14 @@ namespace AuthDemo.APIs
                 {
                     if (ex.InnerException.Message.Contains("CustomerAccount_CustomerAccountName_UniqueConstraint") == true)
                     {
-                        exMsg = "Unable to save customer account record due to :" + ex.Message;
+                        exMsg = "Unable to save customer account record due to : " + ex.Message;
                     object httpFailRequestResultMessage = new { message = exMsg };
                     return BadRequest(httpFailRequestResultMessage);
                     }
                 }
                 var successRequestResultMessage = new
                 {
-                    message = "Saved customer account record" + newCustomerAccount.AccountName
+                    message = "Saved customer account record " + newCustomerAccount.AccountName
                 };
                 OkObjectResult httpOkResult = new OkObjectResult(successRequestResultMessage);
                 return httpOkResult;

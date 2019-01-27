@@ -15,6 +15,7 @@ import { CreateAccountRate } from './components/AccountRate/CreateAccountRate';
 import { UpdateAccountRate } from './components/AccountRate/UpdateAccountRate';
 import { ManageAccountDetail } from './components/AccountDetail/ManageAccountDetail';
 import { CreateAccountDetail } from './components/AccountDetail/CreateAccountDetail';
+import { UpdateAccountDetail } from './components/AccountDetail/UpdateAccountDetail';
 import AuthContext from './AuthContext';
 import PrivateRoute from './PrivateRoute';
 
@@ -84,6 +85,7 @@ export default class App extends Component {
                 <PrivateRoute path='/CustomerAccount/AccountRate/Update' component={UpdateAccountRate} />
                 <PrivateRoute path='/AccountDetail/Manage' component={ManageAccountDetail} />
                 <PrivateRoute path='/AccountDetail/Create' component={CreateAccountDetail} />
+                <PrivateRoute path='/AccountDetail/Update' component={UpdateAccountDetail} />
               </Layout>
             </Switch>
           </div>

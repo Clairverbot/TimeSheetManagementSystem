@@ -39,20 +39,18 @@ export class NavMenu extends Component {
 													<Menu.Item href="./CustomerAccount/Manage">Manage Customer Account</Menu.Item>
 													<Menu.Item href="./CustomerAccount/Create">Create Customer Account</Menu.Item>
 												</Menu.Menu>
-											</Menu.Item>,
-											<Divider />,
-											<Menu.Item>
-												<Menu.Header>Account Detail</Menu.Header>
-												<Menu.Menu>
-													<Menu.Item href='./AccountDetail/Manage'>Manage Account Detail</Menu.Item>
-													<Menu.Item href='./AccountDetail/Create'>Create Account Detail</Menu.Item>
-												</Menu.Menu>
 											</Menu.Item>
 										]
 										:
-										// console.log(user)
 										null
 									,
+									<Divider />,
+									<Menu.Item>
+										<Menu.Header>Account Detail</Menu.Header>
+										<Menu.Menu>
+											<Menu.Item href='./AccountDetail/Manage'>Manage Account Detail</Menu.Item>
+										</Menu.Menu>
+									</Menu.Item>,
 									<Divider />,
 									<Menu.Item key={2} onClick={() => { logout() }}>
 										<Icon name='sign-out' />

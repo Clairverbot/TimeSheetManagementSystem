@@ -27,7 +27,6 @@ export class UpdateCustomerAccount extends Component {
           visibility: data.isVisible,
           comments:data.comments
 				});
-				console.log(data)
 			});
       this.submitCustomerAccountForm = this.submitCustomerAccountForm.bind(this);
     }
