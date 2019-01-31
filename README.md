@@ -2,7 +2,8 @@
 
 Yes, that WEBA assignment _(:3 」∠)_
 
-## Tech Stack
+
+### Tech Stack
 
 Hardcoded with
 
@@ -26,6 +27,7 @@ IIS Express
 ```
 anyhow click and it'll work
 
+
 ### Installing
 
 Once again, I believe that anyone that's reading this is an intellect that knows how to install this.
@@ -47,13 +49,14 @@ Change some connection strings (i did not do it the right way so change the one 
 '''
 
 
-## Authors
+### Authors
 
 * **Ducky Escobar** - Project Lead
 * **Clair** - Intern
 
 
-## License
+
+### License
 
 I have driving license
 
