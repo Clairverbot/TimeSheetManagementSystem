@@ -4,10 +4,15 @@ Yes, that WEBA assignment _(:3 」∠)_
 
 ## Tech Stack
 
+Hardcoded with
+
 Frontend: ReactJS
+
 Backend: ASP.NET Core
+
 Database: SQL
-Code: Hard
+
+_HEY I TRIED TO USE STORED PROCEDURE_
 
 
 ### How to run this
@@ -19,6 +24,7 @@ I believe you'll need
 Visual Studio
 IIS Express
 ```
+anyhow click and it'll work
 
 ### Installing
 
