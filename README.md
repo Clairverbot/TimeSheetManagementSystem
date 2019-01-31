@@ -1,7 +1,19 @@
 # Time Sheet Management System
 
 Yes, that WEBA assignment _(:3 」∠)_
-![Screenshot](Home.png)
+
+![Dashboard](Home.PNG)
+
+there's a dashboard
+
+![Manage Customer Account](ManageCustomerAccount.PNG)
+
+i got do my work
+
+![Manage Account Detail](ManageAccountDetail.PNG)
+
+more tables
+
 
 ### Tech Stack
 
