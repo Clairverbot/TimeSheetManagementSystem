@@ -34,17 +34,11 @@ Once again, I believe that anyone that's reading this is an intellect that knows
 
 ```
 FIND YOUR FAVOURITE DIRECTORY
-```
 
-```
 git clone https://github.com/Clairetard/TimeSheetManagementSystem
-```
 
-```
 Execute DB.sql in SQL?
-```
 
-```
 Change some connection strings (i did not do it the right way so change the one at application db context)
 ```
 
