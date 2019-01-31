@@ -13,8 +13,7 @@ export class NavMenu extends Component {
 		return (
 			<header>
 				<AuthContext.Consumer>
-					{({ isAuth, token, role, logout }) => (
-						console.log(role),
+					{({ isAuth, token, role }) => (
 						<Menu secondary vertical color='teal' inverted borderless fixed='left'>
 							<Menu.Item href="/" position="left">
 								<Header as='h4' inverted>Time Sheet Management System</Header>
@@ -51,11 +50,7 @@ export class NavMenu extends Component {
 											<Menu.Item href='./AccountDetail/Manage'>Manage Account Detail</Menu.Item>
 										</Menu.Menu>
 									</Menu.Item>,
-									<Divider />,
-									<Menu.Item key={2} onClick={() => { logout() }}>
-										<Icon name='sign-out' />
-										Logout
-								</Menu.Item>,
+									<Divider />
 								]
 							) :
 

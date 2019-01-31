@@ -5,9 +5,10 @@
 const state = {
     isAuth: false,
     token: '',
-    role:''
+    role:'',
+    fullname:''
 };
 
-const AuthContext = React.createContext({ isAuth: state.number, token: state.token, role:state.role }); //passing initial value
+const AuthContext = React.createContext({ isAuth: state.number, token: state.token, role:state.role,fullname:state.fullname }); //passing initial value
 
 export default AuthContext;

@@ -39,7 +39,7 @@ export class Login extends Component {
 
 		axios.post('/users/signin', bodyFormData, config)
 			.then(res => {
-				callback(true, res.data.token,res.data.user.role)
+				callback(true, res.data.token,res.data.user.role,res.data.user.fullName)
 				this.props.history.push('/')
 			}).catch((error) => {
 				// Error

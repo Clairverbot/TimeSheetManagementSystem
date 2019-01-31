@@ -16,6 +16,8 @@ export class ManageAccountDetail extends Component {
             //delete
             selectedId: -1,
             showDeleteDialog: false,
+            //hide account rate
+            rateVisibility: true,
 
         }
 
@@ -108,9 +110,9 @@ export class ManageAccountDetail extends Component {
                                     <Table.HeaderCell rowSpan={2}>Effective End Date</Table.HeaderCell>
                                     <Table.HeaderCell rowSpan={2}>Is Visible</Table.HeaderCell>
                                     <Table.HeaderCell rowSpan={2}>Actions</Table.HeaderCell>
-                                    <Table.HeaderCell colSpan={3}>Account Rates</Table.HeaderCell>
+                                    <Table.HeaderCell colSpan={3} hidden={!this.state.rateVisibility}>Account Rates</Table.HeaderCell>
                                 </Table.Row>
-                                <Table.Row>
+                                <Table.Row hidden={!this.state.rateVisibility}>
                                     <Table.HeaderCell>Rate Per Hour</Table.HeaderCell>
                                     <Table.HeaderCell>Effective Start Date</Table.HeaderCell>
                                     <Table.HeaderCell>Effective End Date</Table.HeaderCell>
@@ -120,17 +122,17 @@ export class ManageAccountDetail extends Component {
                                 {item.accountDetails.map((element, index) => {
                                     return (
                                         [
-                                            <Table.Row>
-                                                <Table.Cell rowSpan={rowSpan}>{index + 1}</Table.Cell>
-                                                <Table.Cell rowSpan={rowSpan}>{moment().isoWeekday(element.dayOfWeekNumber).format('dddd')}</Table.Cell>
-                                                <Table.Cell rowSpan={rowSpan}>{moment.utc(element.startTimeInMinutes, "HH:mm:ss").format('hh:mm A')}</Table.Cell>
-                                                <Table.Cell rowSpan={rowSpan}>{moment.utc(element.endTimeInMinutes, "HH:mm:ss").format('hh:mm A')}</Table.Cell>
-                                                <Table.Cell rowSpan={rowSpan}>{element.effectiveStartDate.slice(0, -9)}</Table.Cell>
-                                                <Table.Cell rowSpan={rowSpan}>{element.effectiveEndDate.slice(0, -9)}</Table.Cell>
-                                                <Table.Cell rowSpan={rowSpan}>{element.isVisible
+                                            <Table.Row warning={!element.isVisible}>
+                                                <Table.Cell rowSpan={this.state.rateVisibility ? rowSpan : 1}>{index + 1}</Table.Cell>
+                                                <Table.Cell rowSpan={this.state.rateVisibility ? rowSpan : 1}>{moment().isoWeekday(element.dayOfWeekNumber).format('dddd')}</Table.Cell>
+                                                <Table.Cell rowSpan={this.state.rateVisibility ? rowSpan : 1}>{moment.utc(element.startTimeInMinutes, "HH:mm:ss").format('hh:mm A')}</Table.Cell>
+                                                <Table.Cell rowSpan={this.state.rateVisibility ? rowSpan : 1}>{moment.utc(element.endTimeInMinutes, "HH:mm:ss").format('hh:mm A')}</Table.Cell>
+                                                <Table.Cell rowSpan={this.state.rateVisibility ? rowSpan : 1}>{element.effectiveStartDate.slice(0, -9)}</Table.Cell>
+                                                <Table.Cell rowSpan={this.state.rateVisibility ? rowSpan : 1}>{element.effectiveEndDate.slice(0, -9)}</Table.Cell>
+                                                <Table.Cell rowSpan={this.state.rateVisibility ? rowSpan : 1}>{element.isVisible
                                                     ? <Icon name="check" />
                                                     : <Icon name="close" />}</Table.Cell>
-                                                <Table.Cell rowSpan={rowSpan}>
+                                                <Table.Cell rowSpan={this.state.rateVisibility ? rowSpan : 1}>
                                                     <Button.Group size="mini">
                                                         <Button icon='edit'
                                                             positive
@@ -143,9 +145,9 @@ export class ManageAccountDetail extends Component {
                                                         />
                                                     </Button.Group>
                                                 </Table.Cell>
-                                                {this.renderFirstAccountRate(index, item.customerAccountId)}
+                                                {this.renderFirstAccountRate(element, item.customerAccountId)}
                                             </Table.Row>,
-                                            this.renderOtherAccountRate(index, item.customerAccountId),
+                                            this.renderOtherAccountRate(element, item.customerAccountId),
                                             this.renderMissingAccountRate(index, item.customerAccountId)
                                         ]
                                     )
@@ -153,35 +155,54 @@ export class ManageAccountDetail extends Component {
                                 }
 
                             </Table.Body>
+
+                            <Table.Footer>
+                                <Table.Row>
+                                    <Table.HeaderCell colSpan='11'>
+                                        <Button
+                                            icon
+                                            labelPosition='left'
+                                            floated='right'
+                                            positive size="mini"
+                                            onClick={(e) => this.setState({ rateVisibility: !this.state.rateVisibility })}>
+                                            <Icon name={this.state.rateVisibility ? 'hide' : 'unhide'} />
+                                            {this.state.rateVisibility ? 'Hide Account Rate' : 'Show Account Rate'}
+                                        </Button>
+                                    </Table.HeaderCell>
+                                </Table.Row>
+                            </Table.Footer>
                         </Table>
                 )}
             </AuthContext.Consumer>
         )
     }
-    renderFirstAccountRate(accountDetailId, customerAccountId) {
+    renderFirstAccountRate(accountDetail, customerAccountId) {
         var CustomerAccount = {}
         this.state.accountDetails.forEach(element => {
             if (element.customerAccountId === customerAccountId)
                 CustomerAccount = element
         });
         const accRate = CustomerAccount.accountRate[0]
-        return (
-            [
-                <Table.Cell>{accRate.ratePerHour}</Table.Cell>,
-                <Table.Cell>{accRate.effectiveStartDate.slice(0, -9)}</Table.Cell>,
-                <Table.Cell>{accRate.effectiveEndDate.slice(0, -9)}</Table.Cell>
-            ]
+        if (moment(accountDetail.effectiveStartDate).isBetween(accRate.effectiveStartDate, accRate.effectiveEndDate)
+            || moment(accountDetail.effectiveEndDate).isBetween(accRate.effectiveStartDate, accRate.effectiveEndDate)
+            || moment(accountDetail.effectiveStartDate).isSame(accRate.effectiveStartDate)
+            || moment(accountDetail.effectiveEndDate).isSame(accRate.effectiveEndDate)
+            || moment(accRate.effectiveStartDate).isBetween(accountDetail.effectiveStartDate, accountDetail.effectiveEndDate)
+            || moment(accRate.effectiveEndDate).isBetween(accountDetail.effectiveStartDate, accountDetail.effectiveEndDate)
         )
+            return (
+                [
+                    <Table.Cell hidden={!this.state.rateVisibility}>{accRate.ratePerHour}</Table.Cell>,
+                    <Table.Cell hidden={!this.state.rateVisibility}>{accRate.effectiveStartDate.slice(0, -9)}</Table.Cell>,
+                    <Table.Cell hidden={!this.state.rateVisibility}>{accRate.effectiveEndDate.slice(0, -9)}</Table.Cell>
+                ]
+            )
     }
-    renderOtherAccountRate(accountDetailId, customerAccountId) {
-        var CustomerAccount, AccountDetail = {}
+    renderOtherAccountRate(accountDetail, customerAccountId) {
+        var CustomerAccount = {}
         this.state.accountDetails.forEach(element => {
             if (element.customerAccountId === customerAccountId)
                 CustomerAccount = element
-        });
-        this.state.accountDetails.forEach(element => {
-            if (element.accountDetailId === accountDetailId)
-                AccountDetail = element
         });
         const accRate = CustomerAccount.accountRate
 
@@ -191,11 +212,19 @@ export class ManageAccountDetail extends Component {
                 index === 0 ?
                     null
                     :
-                    <Table.Row>
-                        <Table.Cell>{element.ratePerHour}</Table.Cell>
-                        <Table.Cell>{element.effectiveStartDate.slice(0, -9)}</Table.Cell>
-                        <Table.Cell>{element.effectiveEndDate.slice(0, -9)}</Table.Cell>
-                    </Table.Row>
+                    moment(accountDetail.effectiveStartDate).isBetween(element.effectiveStartDate, element.effectiveEndDate)
+                        || moment(accountDetail.effectiveEndDate).isBetween(element.effectiveStartDate, element.effectiveEndDate)
+                        || moment(accountDetail.effectiveStartDate).isSame(element.effectiveStartDate)
+                        || moment(accountDetail.effectiveEndDate).isSame(element.effectiveEndDate)
+                        || moment(accRate.effectiveStartDate).isBetween(accountDetail.effectiveStartDate, accountDetail.effectiveEndDate)
+                        || moment(accRate.effectiveEndDate).isBetween(accountDetail.effectiveStartDate, accountDetail.effectiveEndDate) ?
+                        <Table.Row hidden={!this.state.rateVisibility}>
+                            <Table.Cell>{element.ratePerHour}</Table.Cell>
+                            <Table.Cell>{element.effectiveStartDate.slice(0, -9)}</Table.Cell>
+                            <Table.Cell>{element.effectiveEndDate.slice(0, -9)}</Table.Cell>
+                        </Table.Row>
+                        :
+                        <Table.Row></Table.Row>
             )
         })
     }
@@ -208,31 +237,10 @@ export class ManageAccountDetail extends Component {
         const accRate = CustomerAccount.accountRate
         const accDetail = CustomerAccount.accountDetails[accountDetailId]
         var rows = []
-        // return (
-        //     moment(accRate[0].effectiveStartDate.slice(0, -9))
-        //         .isSameOrBefore(accDetail.effectiveStartDate.slice(0, -9))
-        //         && moment(accRate[accRate.length - 1].effectiveEndDate.slice(0, -9))
-        //             .isSameOrAfter(accDetail.effectiveEndDate.slice(0, -9)) ?
-        //         moment(accRate[0].effectiveStartDate.slice(0, -9))
-        //             .isAfter(accDetail.effectiveStartDate.slice(0, -9)) ?
-        //             <Table.Row error>
-        //                 <Table.Cell>NA</Table.Cell>
-        //                 <Table.Cell>{accRate[0].effectiveStartDate.slice(0, -9)}</Table.Cell>
-        //                 <Table.Cell>{accDetail.effectiveStartDate.slice(0, -9)}</Table.Cell>
-        //             </Table.Row>
-        //             :
-        //             <Table.Row></Table.Row>
-        //         :
-        //         <Table.Row error>
-        //             <Table.Cell>NA</Table.Cell>
-        //             <Table.Cell>{accRate[accRate.length - 1].effectiveEndDate.slice(0, -9)}</Table.Cell>
-        //             <Table.Cell>{accDetail.effectiveEndDate.slice(0, -9)}</Table.Cell>
-        //         </Table.Row>
-        // )
         if (moment(accRate[0].effectiveStartDate.slice(0, -9))
             .isAfter(accDetail.effectiveStartDate.slice(0, -9))) {
             rows.push(
-                <Table.Row error>
+                <Table.Row error hidden={!this.state.rateVisibility}>
                     <Table.Cell>NA</Table.Cell>
                     <Table.Cell>{accDetail.effectiveStartDate.slice(0, -9)}</Table.Cell>
                     <Table.Cell>{accRate[0].effectiveStartDate.slice(0, -9)}</Table.Cell>
@@ -243,7 +251,7 @@ export class ManageAccountDetail extends Component {
         if (moment(accRate[accRate.length - 1].effectiveEndDate.slice(0, -9))
             .isBefore(accDetail.effectiveEndDate.slice(0, -9))) {
             rows.push(
-                <Table.Row error>
+                <Table.Row error hidden={!this.state.rateVisibility}>
                     <Table.Cell>NA</Table.Cell>
                     <Table.Cell>{accRate[accRate.length - 1].effectiveEndDate.slice(0, -9)}</Table.Cell>
                     <Table.Cell>{accDetail.effectiveEndDate.slice(0, -9)}</Table.Cell>
@@ -251,6 +259,7 @@ export class ManageAccountDetail extends Component {
             )
         }
         else { rows.push(<Table.Row></Table.Row>) }
+
         return rows
 
 

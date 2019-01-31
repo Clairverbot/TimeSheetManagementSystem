@@ -4,7 +4,6 @@ import { NavMenu } from './components/NavMenu';
 import { Home } from './components/Home';
 import { Layout } from './components/Layout';
 import { Login } from './components/Login';
-import { SignUp } from './components/SignUp';
 import { CreateSessionSynopsis } from './components/SessionSynopsis/CreateSessionSynopsis';
 import { ManageSessionSynopsis } from './components/SessionSynopsis/ManageSessionSynopsis';
 import { UpdateSessionSynopsis } from './components/SessionSynopsis/UpdateSessionSynopsis';
@@ -25,10 +24,12 @@ class AuthProvider extends Component {
     if (localStorage.getItem('token') === null) {
       localStorage.setItem('token', this.state.token);
       localStorage.setItem('role', this.state.role);
+      localStorage.setItem('fullname', this.state.fullname);
     } else {
       if (localStorage.getItem('token').length !== 0) {
         this.state.token = localStorage.getItem('token');
         this.state.role = localStorage.getItem('role');
+        this.state.fullname = localStorage.getItem('fullname');
         this.state.isAuth = true;
       }
     }
@@ -37,16 +38,19 @@ class AuthProvider extends Component {
     isAuth: false,
     token: '',
     role: '',
-    updateAuth: (isAuth, token, role) => {
-      this.setState({ isAuth: true, token: token, role: role }, function () {
+    fullname:'',
+    updateAuth: (isAuth, token, role,fullname) => {
+      this.setState({ isAuth: true, token: token, role: role,fullname:fullname }, function () {
         localStorage.setItem('token', token);
-        localStorage.setItem('role', role)
+        localStorage.setItem('role', role);
+        localStorage.setItem('fullname', fullname);
       })
     },
     logout: () => {
-      this.setState({ isAuth: false, token: '', role: '' }, function () {
+      this.setState({ isAuth: false, token: '', role: '',fullname:'' }, function () {
         localStorage.setItem('token', this.state.token);
         localStorage.setItem('role', this.state.role);
+        localStorage.setItem('fullname', this.state.fullname);
       })
     },
     selectTask: (taskId) => {

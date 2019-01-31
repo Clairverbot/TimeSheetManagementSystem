@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Card, Feed, Loader, CardContent } from 'semantic-ui-react';
+import { Card, Feed, Loader, Header, Segment, Grid, Divider, Icon } from 'semantic-ui-react';
 import AuthContext from '../AuthContext'
 import axios from 'axios';
 import moment from 'moment';
-import { LineChart, Line, CartesianGrid,XAxis,YAxis,Tooltip,Legend } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 
 export class Home extends Component {
   displayName = Home.name
@@ -15,7 +15,9 @@ export class Home extends Component {
       notificationLoading: true,
       //chart
       data: [],
-      chartLoading: true
+      chartLoading: true,
+      //top stuff
+      topData:[]
     }
     var config = {
       withCredentials: false,
@@ -35,7 +37,14 @@ export class Home extends Component {
       }
       );
 
-    axios.get('/api/AccountRates/GetTotalEarnings', config)
+    axios.get('/api/AccountRates/GetStuffForDashboard', config)
+      .then(response => {
+        console.log(response.data);
+        this.setState({topData:response.data})
+      }
+      );
+
+      axios.get('/api/AccountRates/GetTotalEarnings', config)
       .then(response => {
         console.log(response.data);
         this.setState({
@@ -48,7 +57,7 @@ export class Home extends Component {
   getChartData(data) {
     let temp = []
     for (var i = 0; i < Object.keys(data).length; i++) {
-      temp.push({ name: Object.keys(data)[i].slice(0,-3), value: Object.values(data)[i] })
+      temp.push({ name: Object.keys(data)[i].slice(0, -3), value: Object.values(data)[i] })
     }
     console.log(temp)
     this.setState({ data: temp, chartLoading: false })
@@ -58,11 +67,40 @@ export class Home extends Component {
   render() {
     return (
       <AuthContext.Consumer>
-        {({ selectTask,role }) => (
+        {({ selectTask, role }) => (
           <div>
             <h1>Dashboard</h1>
-            <Card fluid>
-              <Card.Content>
+            <Grid divided='vertically'>
+              <Grid.Row columns={3}>
+                <Grid.Column stretched>
+                  <Segment inverted color='blue' padded>
+                    <Header icon>
+                      <Icon name='users' />
+                      {this.state.topData[0]} Active Customer Accounts
+                      </Header>
+                  </Segment>
+                </Grid.Column>
+                <Grid.Column stretched>
+                  <Segment inverted color='yellow' padded>
+                  <Header icon>
+                      <Icon name='dollar' />
+                      {this.state.topData[1]} Expiring Account Rates
+                      </Header>
+                  </Segment>
+                </Grid.Column>
+                <Grid.Column stretched>
+                  <Segment inverted color='orange' padded>
+                  <Header icon>
+                      <Icon name='calendar times' />
+                      {this.state.topData[2]} Expiring Account Details
+                      </Header>
+                  </Segment>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+            <Card.Group itemsPerRow={2}>
+              <Card fluid>
+                <Card.Content>
                   <Card.Header>Total Monthly Rate per Hour</Card.Header>
                 </Card.Content>
                 {this.state.chartLoading ?
@@ -71,14 +109,14 @@ export class Home extends Component {
                   </Card.Content>
                   :
                   <Card.Content>
-                  <LineChart width={400} height={180} data={this.state.data}
-                    margin={{ top: 0, right: 30, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="value" stroke="#52D4BF" />
-                  </LineChart>
+                    <LineChart width={400} height={180} data={this.state.data}
+                      margin={{ top: 0, right: 30, left: 0, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip />
+                      <Line type="monotone" dataKey="value" stroke="#52D4BF" />
+                    </LineChart>
                   </Card.Content>
                 }
               </Card>
@@ -97,8 +135,8 @@ export class Home extends Component {
                         <Feed.Event>
                           <Feed.Content>
                             <Feed.Date>
-                            {/* {this.getDeDate(item.date)} */}
-                            {moment.tz(item.date, "YYYYMMDD","Asia/Singapore").fromNow()}
+                              {/* {this.getDeDate(item.date)} */}
+                              {moment.tz(item.date, "YYYYMMDD", "Asia/Singapore").fromNow()}
                             </Feed.Date>
                             <Feed.Summary>
                               {item.createdBy} created customer account <a href='./CustomerAccount/Manage'>{item.accountName}</a>
@@ -110,6 +148,7 @@ export class Home extends Component {
                   )
                 }
               </Card>
+            </Card.Group>
           </div>
         )}
       </AuthContext.Consumer>

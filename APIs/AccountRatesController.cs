@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Collections.Specialized;
+using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
+using System.Data;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -97,13 +100,15 @@ namespace AuthDemo.APIs
         [HttpGet("GetTotalEarnings")]
         public IActionResult GetTotalEarnings()
         {
-            var accountRates = from accountRate in Database.AccountRates
+            var accountRates = from accountRate in Database.AccountRates.FromSql("GetAccountRatesByDate")
                                select new
                                {
+                                   accountRateId = accountRate.AccountRateId,
                                    ratePerHour = accountRate.RatePerHour.ToString(),
                                    effectiveStartDate = accountRate.EffectiveStartDate.ToString(),
                                    effectiveEndDate = accountRate.EffectiveEndDate.ToString()
                                };
+            //var accountRates = Database.AccountRates.FromSql("GetAccountRatesByDate").AsNoTracking().ToList();
             if (accountRates.Count() != 0)
             {
                 DateTime d1 = accountRates.Min(a => DateTime.Parse(a.effectiveStartDate));
@@ -132,6 +137,22 @@ namespace AuthDemo.APIs
             }
             return null;
         }
+        [HttpGet("GetStuffForDashboard")]
+        public IActionResult GetStuffForDashboard()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            ClaimsPrincipal user = HttpContext.User;
+            if (identity != null)
+            {
+
+                int activeCust = Database.AccountRates.Where(x => DateTime.Compare(x.EffectiveStartDate, DateTime.Now) <= 0&& DateTime.Compare(DateTime.Parse(x.EffectiveEndDate.ToString()), DateTime.Now) >= 0).Count();
+                int expiringRates = Database.AccountRates.Where(x => DateTime.Parse(x.EffectiveEndDate.ToString()).Subtract(DateTime.Now).Days <= 14).Count();
+                int expiringDetails = Database.AccountDetails.Where(x => DateTime.Parse(x.EffectiveEndDate.ToString()).Subtract(DateTime.Now).Days <= 14).Count();
+                int[] stuff = new int[] { activeCust, expiringRates, expiringDetails };
+                return new JsonResult(stuff);
+            }
+            return null;
+            }
         // POST api/<controller>
         [HttpPost]
         public IActionResult Post([FromForm]IFormCollection value)

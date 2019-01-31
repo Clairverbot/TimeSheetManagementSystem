@@ -115,6 +115,20 @@ namespace AuthDemo.APIs
         [HttpPut("{id}")]
         public IActionResult Put(int id,[FromForm]AccountDetail value)
         {
+            DateTime EffectiveEndDate = DateTime.Parse(value.EffectiveEndDate.ToString());
+            if (EffectiveEndDate != null)
+            {
+                if (DateTime.Compare(value.EffectiveStartDate, EffectiveEndDate) > 0)
+                {
+                    object httpFailRequestResultMessage = new { message = "Effective Start Date is earlier than Effective End Date" };
+                    return BadRequest(httpFailRequestResultMessage);
+                }
+            }
+            if (TimeSpan.Compare(value.StartTimeInMinutes, value.EndTimeInMinutes) > 0)
+            {
+                object httpFailRequestResultMessage = new { message = "Start Time is earlier than End Time" };
+                return BadRequest(httpFailRequestResultMessage);
+            }
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             ClaimsPrincipal user = HttpContext.User;
             if (identity != null)
