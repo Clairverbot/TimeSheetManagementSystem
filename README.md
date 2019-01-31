@@ -1,7 +1,7 @@
 # Time Sheet Management System
 
 Yes, that WEBA assignment _(:3 」∠)_
-
+![Screenshot](Home.png)
 
 ### Tech Stack
 
