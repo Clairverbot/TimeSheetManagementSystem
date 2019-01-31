@@ -51,7 +51,7 @@ namespace AuthDemo.APIs
                 IEnumerable<Claim> claims = identity.Claims;
                 userId = Int32.Parse(identity.FindFirst("userid").Value);
                 List<object> customerAccountsList = new List<object>();
-                var customerAccounts = from customerAccount in Database.CustomerAccounts.Where(x => x.IsVisible || x.CreatedById == userId)
+                var customerAccounts = from customerAccount in Database.CustomerAccounts.Where(x => x.IsVisible || x.CreatedBy.Role == "Admin")
                                        select new
                                        {
                                            customerAccountId = customerAccount.CustomerAccountId,
@@ -104,7 +104,7 @@ namespace AuthDemo.APIs
             {
                 userId = Int32.Parse(identity.FindFirst("userid").Value);
                 var custAcc = from c in Database.CustomerAccounts
-                .Where(customerAccount => DateTime.Compare(DateTime.Parse(customerAccount.CreatedAt.ToString()), DateTime.Today.AddDays(3.0)) <= 0 && customerAccount.IsVisible)
+                .Where(customerAccount => DateTime.Compare(DateTime.Parse(customerAccount.CreatedAt.ToString()), DateTime.Today.AddDays(3.0)) <= 0 && (customerAccount.IsVisible||customerAccount.CreatedBy.Role=="Admin"))
                               select new
                               {
                                   customerAccountId = c.CustomerAccountId,

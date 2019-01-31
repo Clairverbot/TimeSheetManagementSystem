@@ -164,7 +164,7 @@ export class ManageCustomerAccount extends Component {
 	handleUpdateClick(e, id, callback) {
 		console.log(id)
 		callback(id)
-		this.props.history.push("./Update/" + id);
+		this.props.history.push("./Update");
 	}
 	//#endregion
 	//#endregion
@@ -173,13 +173,13 @@ export class ManageCustomerAccount extends Component {
 	//#region add
 	handleAddRateClick(e, id, callback) {
 		callback(id)
-		this.props.history.push("./AccountRate/Create/" + id)
+		this.props.history.push("./AccountRate/Create")
 	}
 	//#endregion
 	//#region add
 	handleUpdateRateClick(e, id, callback) {
 		callback(id)
-		this.props.history.push("./AccountRate/Update/" + id)
+		this.props.history.push("./AccountRate/Update")
 	}
 	//#endregion
 	//#region delete

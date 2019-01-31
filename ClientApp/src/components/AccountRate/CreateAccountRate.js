@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import AuthContext from './../../AuthContext';
 import { Segment, Header, Form, Button, Label, Message } from 'semantic-ui-react';
 import axios from 'axios';
+import moment from 'moment';
 
 export class CreateAccountRate extends Component {
 	displayName = CreateAccountRate.name
@@ -11,7 +12,7 @@ export class CreateAccountRate extends Component {
 		this.state = {
 			id: props.selectedTaskIdForUpdate,
 			rate: '',
-			nowDate: d.getFullYear() + "-" + ('0'+d.getMonth()+1).slice(-2),
+			nowDate: d.getFullYear() + "-" + ('0' + d.getMonth() + 1).slice(-2),
 			startDate: '',
 			endDate: '',
 			existingRate: [],
@@ -31,24 +32,24 @@ export class CreateAccountRate extends Component {
 	}
 	submitAccountRateForm(event, token) {
 		this.setState({
-			showError:false,
-			errorMsg:''
+			showError: false,
+			errorMsg: ''
 		})
-		if(this.state.rate===''){
+		if (this.state.rate === '') {
 			this.setState({
 				showError: true,
 				errorMsg: 'Enter Account Rate la'
 			})
 			return
 		}
-		if(this.state.startDate===''){
+		if (this.state.startDate === '') {
 			this.setState({
 				showError: true,
 				errorMsg: 'Select Start Date la'
 			})
 			return
 		}
-		
+
 		let d1 = this.state.startDate.replace('-', '')
 		let d2 = this.state.endDate.replace('-', '')
 		this.state.existingRate.forEach(rate => {
@@ -62,12 +63,12 @@ export class CreateAccountRate extends Component {
 				})
 				throw "exit"
 			}
-			console.log(this.state.rate+" "+rate.ratePerHour)
-			if(parseInt(d1)===(parseInt(rate.effectiveEndDate)+1)){
-				if (this.state.rate==rate.ratePerHour){
+			console.log(this.state.endDate + moment(this.state.endDate + '-01').endOf('month').format('DD'))
+			if (parseInt(d1) === (parseInt(rate.effectiveEndDate) + 1)) {
+				if (this.state.rate == rate.ratePerHour) {
 					this.setState({
-						showError:true,
-						errorMsg:'Account rate is same as the previous account rate. Please update the previous account rate instead'
+						showError: true,
+						errorMsg: 'Account rate is same as the previous account rate. Please update the previous account rate instead'
 					})
 					throw "exit"
 				}
@@ -85,7 +86,7 @@ export class CreateAccountRate extends Component {
 			body.set('customerAccountId', this.state.id)
 			body.set('ratePerHour', this.state.rate)
 			body.set('effectiveStartDate', this.state.startDate + "-01")
-			body.set('effectiveEndDate', this.state.endDate + "-01")
+			body.set('effectiveEndDate', this.state.endDate + '-' + moment(this.state.endDate + '-01').endOf('month').format('DD'))
 
 			axios.post('/api/accountRates', body, config)
 				.then(res => {

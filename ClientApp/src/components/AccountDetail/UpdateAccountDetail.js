@@ -86,7 +86,13 @@ export class UpdateAccountDetail extends Component {
                 form_data.append(key, this.state.accountDetail[key]);
             }
             console.log(this.state.accountDetail)
-            axios.put('/api/AccountDetails/' + this.state.id, form_data, config)
+            axios.put('/api/AccountDetails/' + this.state.id, form_data, config)				
+            .then(res => {
+                alert(res.data.message);
+                if (res.status === 200) {
+                    window.location.href = "./AccountDetail/Manage"
+                }
+            });
         }
         catch (res) {
             console.log(res)

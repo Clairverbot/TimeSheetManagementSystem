@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import AuthContext from './../../AuthContext';
 import { Segment,Message, Header, Form, Button, Label } from 'semantic-ui-react';
 import axios from 'axios';
+import moment from 'moment'
 
 export class UpdateAccountRate extends Component {
     displayName = UpdateAccountRate.name
@@ -93,7 +94,7 @@ export class UpdateAccountRate extends Component {
         let body = new FormData();
         body.set('ratePerHour', this.state.rate)
         body.set('effectiveStartDate', this.state.startDate + "-01")
-        body.set('effectiveEndDate', this.state.endDate + "-01")
+        body.set('effectiveEndDate', this.state.endDate+ '-' + moment(this.state.endDate + '-01').endOf('month').format('DD'))
 
         axios.put('/api/accountRates/' + this.state.id, body, config)
             .then(res => {
