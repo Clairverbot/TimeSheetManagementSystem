@@ -19,9 +19,6 @@ _HEY I TRIED TO USE STORED PROCEDURE_
 
 ### How to run this
 
-I believe that anyone that's reading this is smart enuff to run this project. Anyways, it works on my machine.
-
-I believe you'll need
 ```
 Visual Studio
 IIS Express
@@ -31,18 +28,19 @@ anyhow click and it'll work
 
 ### Installing
 
-Once again, I believe that anyone that's reading this is an intellect that knows how to install this.
 
 ```
-FIND YOUR FAVOURITE DIRECTORY
+1. FIND YOUR FAVOURITE DIRECTORY
 
-git clone https://github.com/Clairetard/TimeSheetManagementSystem
+2. git clone https://github.com/Clairetard/TimeSheetManagementSystem
 
-Execute DB.sql in SQL?
+3. Execute DB.sql in SQL?
 
-Change some connection strings (i did not do it the right way so change the one at application db context)
+4. Change some connection strings (i did not do it the right way so change the one at application db context)
 ```
 
+
+### Project Features
 
 If you're lazy to install, here's how it looks like
 ![Dashboard](Home.PNG)
