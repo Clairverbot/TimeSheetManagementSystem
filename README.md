@@ -43,7 +43,8 @@ Execute DB.sql in SQL?
 Change some connection strings (i did not do it the right way so change the one at application db context)
 ```
 
-If you're lazy to install, here's some tables
+
+If you're lazy to install, here's how it looks like
 ![Dashboard](Home.PNG)
 
 there's a dashboard
