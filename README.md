@@ -2,17 +2,6 @@
 
 Yes, that WEBA assignment _(:3 」∠)_
 
-![Dashboard](Home.PNG)
-
-there's a dashboard
-
-![Manage Customer Account](ManageCustomerAccount.PNG)
-
-i got do my work
-
-![Manage Account Detail](ManageAccountDetail.PNG)
-
-more tables
 
 
 ### Tech Stack
@@ -53,6 +42,20 @@ Execute DB.sql in SQL?
 
 Change some connection strings (i did not do it the right way so change the one at application db context)
 ```
+
+If you're lazy to install, here's some tables
+![Dashboard](Home.PNG)
+
+there's a dashboard
+
+![Manage Customer Account](ManageCustomerAccount.PNG)
+
+i got do my work
+
+![Manage Account Detail](ManageAccountDetail.PNG)
+
+more tables
+
 
 
 ### Authors
