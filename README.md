@@ -39,6 +39,20 @@ anyhow click and it'll work
 4. Change some connection strings (i did not do it the right way so change the one at application db context)
 ```
 
+### Running
+
+```
+Run in Visual Studio
+![uselessgif](http://gph.is/2cPbhAw)
+
+* **Admin** - 
+
+Username: 88882 password 123qwe!@#QWE
+
+* **Instructor** - 
+
+Username: 88883 password 123qwe!@#QWE
+```
 
 ### Project Features
 
