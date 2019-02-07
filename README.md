@@ -8,7 +8,7 @@ Yes, that WEBA assignment _(:3 」∠)_
 
 Hardcoded with
 
-Frontend: ReactJS
+Frontend: ReactJS (with the halp of Semantic UI React)
 
 Backend: ASP.NET Core
 
@@ -34,7 +34,7 @@ anyhow click and it'll work
 
 2. git clone https://github.com/Clairetard/TimeSheetManagementSystem
 
-3. Execute DB.sql in SQL?
+3. Execute DB.sql in SQL
 
 4. Change some connection strings (i did not do it the right way so change the one at application db context)
 ```
