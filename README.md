@@ -41,18 +41,20 @@ anyhow click and it'll work
 
 ### Running
 
-```
+
 Run in Visual Studio
 ![uselessgif](http://gph.is/2cPbhAw)
 
-* **Admin** - 
+```
+Admin - 
 
 Username: 88882 password 123qwe!@#QWE
 
-* **Instructor** - 
+Instructor - 
 
 Username: 88883 password 123qwe!@#QWE
 ```
+
 
 ### Project Features
 
