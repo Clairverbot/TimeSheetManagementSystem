@@ -23,7 +23,7 @@ _HEY I TRIED TO USE STORED PROCEDURE_
 Visual Studio
 IIS Express
 ```
-anyhow click and it'll work
+click the button taht iz used to run stuf 
 
 
 ### Installing
